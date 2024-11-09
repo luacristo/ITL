@@ -49,7 +49,30 @@ from flask_restx import Api, Resource, fields
 from models import db, Employee
 from database import create_app # или что у тебя там используется
 
-....
+app = create_app()
+CORS(app) 
+
+api = Api(app, version='1.0', title='Employee API',
+          description='An API to manage employees in an IT company')
+
+# если у тебя не только Employee то соответственно для каждого тут и будет общий API
+
+# потом ns
+ns = api.namespace('employees', description='Operations related to employees')
+
+# модели далее
+employee_model = api.model('Employee', {...})
+
+@ns.route('/')
+class EmployeeList(Resource):
+    pass
+
+
+@ns.route('/<int:id>')
+@ns.response(404, 'Employee not found')
+@ns.param('id', 'The employee identifier')
+class EmployeeResource(Resource):
+    pass
 
 if __name__ == '__main__':
     app.run(port="5001", debug=True)
