@@ -38,5 +38,21 @@
 
 ---
 
+После реализации используйте swagger UI для формирования API. В специально отведенном файле `api.py`.
+
+сначала установите пакеты: `pip install flask-restx flask_migrate flask_restplus`
+
+```python
+from flask import Flask, jsonify, request
+from flask_cors import CORS
+from flask_restx import Api, Resource, fields 
+from models import db, Employee
+from database import create_app # или что у тебя там используется
+
+....
+
+if __name__ == '__main__':
+    app.run(port="5001", debug=True)
+```
 
 
