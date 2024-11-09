@@ -40,6 +40,8 @@ def create_app():
 
 Команды для миграции (cmd, terminal):
 - Инициализация миграций `flask db init`
+<img width="200" alt="Снимок экрана 2024-11-09 в 15 02 54" src="https://github.com/user-attachments/assets/fd31fe30-2b95-4d2b-835e-7e7d4f8c8d52">
+
 - Создание миграции `flask db migrate`
 - Обновление миграции `flask db upgrade`
 
