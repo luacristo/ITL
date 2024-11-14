@@ -44,6 +44,14 @@ class ClientApp(QWidget):
         self.setLayout(layout)
 ```
 
+
+```python
+class EmployeeDialog(QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+....
+```
+
 ```python
 if __name__ == '__main__':
     app = QApplication(sys.argv)
