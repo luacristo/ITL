@@ -64,3 +64,8 @@ if __name__ == '__main__':
     window.show()
     sys.exit(app.exec())
 ```
+
+**примерно так должно выглядить:**
+
+<img width="599" alt="Снимок экрана 2024-11-14 в 19 50 20" src="https://github.com/user-attachments/assets/bcd70801-0193-450f-b3c8-c5928a7ada6d">
+
