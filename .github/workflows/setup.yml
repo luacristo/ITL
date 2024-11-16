@@ -1,52 +1,15 @@
-name: PR Automation for Lab1
+name: Run Main
 
 on:
   push:
     branches:
       - lab1
   pull_request:
-    types:
-      - opened
-      - reopened
-  pull_request_review:
-    types:
-      - submitted
+    branches:
+      - '**'
 
 jobs:
-  handle-pull-request:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Add reviewers and labels
-        run: |
-          curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-               -H "Content-Type: application/json" \
-               -X POST \
-               -d '{"assignees": ["${{ github.event.repository.owner.login }}"], "labels": ["Lab1"]}' \
-               "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}"
-
-  review-handler:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Handle Pull Request Reviews
-        if: github.event_name == 'pull_request_review'
-        run: |
-          REVIEW_STATE=${{ github.event.review.state }}
-          if [ "$REVIEW_STATE" == "approved" ]; then
-            curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-                 -H "Content-Type: application/json" \
-                 -X POST \
-                 -d '{"labels": ["Approved"]}' \
-                 "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}"
-          elif [ "$REVIEW_STATE" == "changes_requested" ]; then
-            curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-                 -H "Content-Type: application/json" \
-                 -X POST \
-                 -d '{"labels": ["Fix"]}' \
-                 "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}"
-
-  run-main:
+  run:
     runs-on: ubuntu-latest
 
     steps:
