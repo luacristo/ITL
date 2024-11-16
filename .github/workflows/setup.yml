@@ -1,6 +1,9 @@
 name: PR Automation for Lab1
 
 on:
+  push:
+    branches:
+      - lab1
   pull_request:
     types:
       - opened
