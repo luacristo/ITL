@@ -1,7 +1,10 @@
-def add_task():
+tasks = [] 
+
+def add_task() -> dict:
     """
     Эта функция добавляет новую задачу в список задач
     Запрашивает у пользователя данные: название, описание и приоритет задачи от одного до 5
+    :return: dict
     """
     title = str(input("Введите название: "))
     description = str(input("Введите описание: "))
@@ -12,16 +15,14 @@ def add_task():
             break
         print("Ошибка: приоритет должен быть от 1 до 5. \n")
 
-    task = {"title": title, "description": description, "priority": priority}
-    return task
+    return {"title": title, "description": description, "priority": priority}
 
-tasks = [] 
 
-def view_tasks():
+def view_tasks() -> None:
     """
     Эта функция выводит список всех задач, которые отсортированы по приоритету задачи (от наибольшего к меньшему)
     Также позволяет пользователю выбрать, вывести все задачи или только первые 5
-
+    :return: None
     """
     if not tasks:
         print("Список пуст \n")
@@ -35,10 +36,12 @@ def view_tasks():
     for index, task in enumerate(sorted_tasks, start=1):
             print(f"{index}. {task['title']} - {task['description']} (Приоритет: {task['priority']}) \n")
     
-def edit_task():
+
+def edit_task() -> None:
     """
     Эта функция позволяет пользователю редактировать уже созданную задачу
     Можно изменить название, описание или приоритет задачи, также можно оставить поле пустым, чтобы значение не поменялось
+    :return: None
     """
     if not tasks:
         print("Список пуст \n")
@@ -55,27 +58,24 @@ def edit_task():
 
     new_title = str(input("Введите новое название (оставьте поле пустым, чтобы сохранить старое): "))
     new_description = str(input("Введите новое описание (оставьте поле пустым, чтобы сохранить старое): "))
-
-    while True:
-        new_priority = int((input("Введите новый приоритет (1 - 5, оставьте поле пустым, чтобы сохранить старое): ")))
-        if new_priority == "":
-            break
-        if 1 <= new_priority <= 5:
-            new_priority = int(new_priority)
-            break
-        print("Ошибка: приоритет должен быть от 1 до 5. \n")
+    
+    new_priority = input("Введите новый приоритет (1 - 5, оставьте поле пустым, чтобы сохранить старое): ")
+    if new_priority != "":
+        temp = int(new_priority)
+        if 1 <= temp <= 5:
+            task["priority"] = temp
     if new_title:
         task["title"] = new_title
     if new_description:
         task["description"] = new_description
-    if new_priority:
-        task["priority"] = int(new_priority)
 
     print("Задача успешно обновлена. \n")
 
-def delete_task():
+
+def delete_task() -> None:
     """
     Эта функция позволяет пользователю удалить выбранную задачу
+    :return: None
     """
     if not tasks:
         print("Список пуст \n")
@@ -91,10 +91,12 @@ def delete_task():
     del tasks[task_number]
     print("Задача успешно удалена. \n")
 
-def main_menu():
+
+def main_menu() -> None:
     """
     Это главное меню программы, позволяет пользователю полностью управлять программой
     А также выбрать одно из пяти действий
+    :return: None
     """
     while True:
         print("1. Добавить задачу\n"
@@ -119,5 +121,6 @@ def main_menu():
             edit_task()
         elif user == 4:
             delete_task()
+
 
 main_menu()
