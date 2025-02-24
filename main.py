@@ -4,17 +4,59 @@ class Product:
     """
     def __init__(self, id: int, name: str, price: float, quantity: int) -> None:
         """
-        Функция для инициализации класса товара
+        функция для инициализации класса товара
         :param id: идентификатор товара
         :param name: название товара
         :param price: цена товара
         :param quantity: количество товара
         :return: None
         """
-        self.id = id
+        self.__id = id
         self.name = name
-        self.price = price
-        self.quantity = quantity
+        self.__price = price
+        self.__quantity = quantity
+
+    def get_id(self) -> int:
+        """
+        возвращает идентификатор товара(геттер)
+        :return: int
+        """
+        return self.__id
+
+    def set_id(self, id: int) -> None:
+        """
+        добавляет id товару (сеттер)
+        :return: None
+        """
+        self.__id = id
+
+    def get_price(self) -> float:
+        """
+        возвращает price (геттер)
+        :return: float
+        """
+        return self.__price
+
+    def set_price(self, price: float) -> None:
+        """
+        устанавливает прайс (сеттер)
+        :return: None
+        """
+        self.__price = price
+
+    def get_quantity(self) -> int:
+        """
+        возвращает количество товара (геттер)
+        :return: int
+        """
+        return self.__quantity
+
+    def set_quantity(self, quantity: int) -> None:
+        """
+        устанавливает количество товара (сеттер)
+        :return: None
+        """
+        self.__quantity = quantity
 
     def update_quantity(self, amount: int) -> None:
         """
@@ -22,7 +64,7 @@ class Product:
         :param amount: новое количество
         :return: None
         """
-        self.quantity += amount
+        self.__quantity += amount
 
     def info(self) -> None:
         """
@@ -30,10 +72,10 @@ class Product:
         :return: None
         """
         print(f"""
-        ID продукта: {self.id}
+        ID продукта: {self.__id}
         Название продукта: {self.name}
-        Цена продукта: {self.price}
-        Количество продукта: {self.quantity}
+        Цена продукта: {self.__price}
+        Количество продукта: {self.__quantity}
         """)
 
 
@@ -69,7 +111,7 @@ class Store:
         """
         new_products = []
         for prod in self.products:
-            if prod.id != product_id:
+            if prod.__id != product_id:
                 new_products.append(prod)
         self.products = new_products
 
@@ -80,9 +122,10 @@ class Store:
         :return: Product | None (если товар не найден)
         """
         for product in self.products:
-            if product.id == id:
+            if product.__id == id:
                 return product
         return None
+    
     def show_products(self) -> None:
         """
         выводит информацию о товарах
@@ -108,7 +151,21 @@ class Customer:
         """
         self.name = name
         self.cart = {}
-        self.balance = balance
+        self.__balance = balance
+
+    def get_balance(self) -> float:
+        """
+        возвращает бэленс покупателя(геттер)
+        :return: float
+        """
+        return self.__balance
+
+    def set_balance(self, balance: float) -> None:
+        """
+        устанавливает бэленс покупателю(сеттер)
+        :return: None
+        """
+        self.__balance = balance
 
     def add_to_cart(self, product : Product, quantity: int) -> None:
         """
@@ -117,23 +174,27 @@ class Customer:
         :param quantity: количество товара
         :return: None
         """
-        if product.quantity < quantity:
+        if product.__quantity < quantity:
             print(f"Недостаточно товара: {product.name}")
-            return
-        
+            return -1
         if product in self.cart:
             self.cart[product] += quantity
         else:
             self.cart[product] = quantity
 
-    def remove_product_cart(self, product: Product) -> None:
+    def remove_product_cart(self, product: Product) -> True | False:
         """
         удаляет товар из корзины
         :param product: товар который нужно удалить
-        :return: None
+        :return: True если успешно удалило | False если есть ошибки
         """
         if product in self.cart:
             del self.cart[product]
+            print("Товар успешно удален")
+            return True
+        else:
+            print("Ошибка")
+            return False
 
     def view_cart(self) -> None:
         """
@@ -143,11 +204,10 @@ class Customer:
         if not self.cart:
             print("Ваша корзина пуста")
             return
-        
         total = 0
         for product, quantity in self.cart.items():
-            print(f"{product.name} - {quantity} шт. ({product.price} за штуку)")
-            total += product.price * quantity 
+            print(f"{product.name} - {quantity} шт. ({product.__price} за штуку)")
+            total += product.__price * quantity 
         print(f"Общая стоимость: {total}")
 
     def checkout(self, store: Store) -> None:
@@ -157,18 +217,23 @@ class Customer:
         :return: None
         """
         total = 0
+        flag = False
         for product, quantity in self.cart.items():
-            total += product.price * quantity
-
-        if self.balance < total:
+            total += product.__price * quantity
+            if store.get_product_by_id(product) < quantity:
+                flag = True
+        if self.__balance < total:
             print("Недостаточно средств")
-            return
-        
+            return -1
+        if flag:
+            print("Недостаточно товаров для совершения покупок")
+            return -1
         for product, quantity in self.cart.items():
             product.update_quantity(-quantity)
-        self.balance -= total
+        self.__balance -= total
         self.cart.clear()
         print("Вы оплатили покупки")
+
 
 class DiscountedProduct(Product):
     """
@@ -192,12 +257,11 @@ class DiscountedProduct(Product):
         выводит информацию о товаре по скидке
         :return: None
         """
-        discounted_price = self.price * (1 - self.discount / 100)
         print(f"""
-        ID продукта: {self.id}
+        ID продукта: {self.__id}
         Название продукта: {self.name}
-        Цена продукта со скидкой: {discounted_price}
-        Количество продукта: {self.quantity}
+        Цена продукта со скидкой: {self.__price * (1 - self.discount / 100)}
+        Количество продукта: {self.__quantity}
         """)
 
 product1 = Product(1, "Tesla", 60000, 5)
