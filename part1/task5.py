@@ -1,5 +1,6 @@
 import re
 
+
 def words_with_a(user_string: str) -> str:
     """
     функция которая принимает строку и возвращает слова из этой строки
@@ -15,5 +16,10 @@ def words_with_a(user_string: str) -> str:
     return words
 
 if __name__ == "__main__":
-    user_string = str(input("Введите строку:"))
-    letter_a = words_with_a(user_string)
+    try:
+        user_string = str(input("Введите строку:"))
+        letter_a = words_with_a(user_string)
+    except ValueError as ve:
+        print(f"Ошибка: {ve}")
+    except Exception as e:
+        print(f"Ошибка: {e}")

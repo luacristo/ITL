@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def random_array() -> None:
     """
     функция создает массив с рандомными числами

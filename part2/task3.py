@@ -1,15 +1,15 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-def plot_graph() -> None:
+
+def plot_graph(x_value: int, y_value: int) -> None:
     """
     функция построения графика функции
     :return: None
     """
-    x = np.linspace(-10, 10, 100)
-    y = x**2
+    
 
-    plt.plot(x, y, label="y = x^2", color="black")
+    plt.plot(x_value, y_value, label="y = x^2", color="black")
     plt.xlabel("x")
     plt.ylabel("y")
     plt.grid(True)
@@ -17,4 +17,7 @@ def plot_graph() -> None:
     plt.show()
 
 if __name__ == "__main__":
-    plot_graph()
+    x = np.linspace(-10, 10, 100)
+    y = x**2
+    
+    plot_graph(x, y)

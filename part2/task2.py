@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def matrix_determinant() -> None:
     """
     функция создают матрицу 3х3 с рандомными значениями

@@ -1,10 +1,12 @@
 import os
 
+
 def create_directory(directory_name: str, user_input: str) -> None:
     """
     функция создает директорию в этой директории создается файл
     в этот файл записывается строка которая была введена пользователем
     :param directory_name: имя директории для создания
+    :param user_input: строка для записи в файл
     :return: None
     """
     if not os.path.exists(directory_name):
@@ -18,16 +20,16 @@ def create_directory(directory_name: str, user_input: str) -> None:
 
     encoding = str(input("Введите желаемую кодировку (например, utf-8, windows-1251):"))
 
-    try:
-        with open(file_path, "w", encoding=encoding) as file:
-            file.write(user_input)
-        print(f"Строка записана в файл {file_path}, с кодировкой {encoding}")
-    except ValueError:
-        print(f"Ошибка: кодировка {encoding} не поддерживается")
-    except Exception as e:
-        print(f"Произошла ошибка: {e}")
+    with open(file_path, "w", encoding=encoding) as file:
+        file.write(user_input)
+    print(f"Строка записана в файл {file_path}, с кодировкой {encoding}")
 
 if __name__ == "__main__":
-    directory_name = input("Введите имя директории:")
-    user_input = input("Введите строку:")
-    file_path = create_directory(directory_name, user_input)
+    try:
+        directory_name = input("Введите имя директории:")
+        user_input = input("Введите строку:")
+        file_path = create_directory(directory_name, user_input)
+    except ValueError as ve:
+        print(f"Ошибка: {ve}")
+    except Exception as e:
+        print(f"Ошибка: {e}")

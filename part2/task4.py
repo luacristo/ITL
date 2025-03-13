@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np 
 
+
 def gystogram() -> None:
     """
     функция построения гистограммы из 1000 случайных чисел
