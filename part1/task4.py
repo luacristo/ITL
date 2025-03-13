@@ -6,7 +6,7 @@ USER_DATA = {
         "name": input("Введите имя пользователя: "),
         "age": int(input("Введите возраст пользователя: ")),
         "city": input("Введите город пользователя: ")
-    }
+}
 
 def user_info(directory_name: str, file_path: str, user_data: dict) -> None:
     """
